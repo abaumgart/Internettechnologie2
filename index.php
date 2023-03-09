@@ -11,7 +11,7 @@
 	<?php
 	
 		$hoehe=15;
-	    const $fallbeschleunigung = 9.81;
+	    $fallbeschleunigung = 9.81;
 		
 		echo (sqrt((2*$hoehe)/($fallbeschleunigung)));
 		
