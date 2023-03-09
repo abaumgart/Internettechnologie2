@@ -6,6 +6,15 @@
 </head>
 
 <body>
-	<h1>Herzlich Willkommen im SoSo2023 V4</h1>
+	<h1>Berechnung des freies Falls eines Handys - Version 1</h1>
+	
+	<?php
+	
+		$hoehe=15;
+	    const $fallbeschleunigung = 9.81;
+		
+		echo (sqrt((2*$hoehe)/($fallbeschleunigung)));
+		
+	?>
 </body>
 </html>
