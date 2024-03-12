@@ -9,5 +9,7 @@
 	<!--- Kommentar für die Dokumentation des HTML Codes--->
 	<h1>Herzlich Willkommen!</h1>
 	<a href="vorlesungswoche1/">Vorlesungswoche 1</a>
+	<br>
+	<a href="vorlesungswoche2/">Vorlesungswoche 2</a>
 </body>
 </html>
