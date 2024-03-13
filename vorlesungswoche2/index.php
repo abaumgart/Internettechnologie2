@@ -22,7 +22,8 @@
       </li>
       <li><a href="">Schleifen</a>
         <ol>
-          <li><a href="">Schleifen mit for</a></li>
+          <li><a href="forschleifen.php">Schleifen mit for</a></li>
+          <li><a href="forschleife-beispiel.php">Beispiel für eine for-Schleife</a></li>
           <li><a href="">Schleifen mit while- oder do-while</a>            </li>
         </ol>
       </li>
