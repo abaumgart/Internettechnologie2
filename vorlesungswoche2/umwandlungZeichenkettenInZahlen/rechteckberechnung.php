@@ -10,10 +10,11 @@
 	<?php
 		/*
 			https://www.php.net/manual/en/book.math.php
+			intval() doubleval()
 		*/
 	
-		$seiteA= $_POST["seiteA"];
-		$seiteB= $_POST["seiteB"];
+		$seiteA= doubleval($_POST["seiteA"]);
+		$seiteB= doubleval($_POST["seiteB"]);
 		$textFuerDiagonale = "Rechteckdiagonale: ";
 		$textFuerUmfang="Umfang: ";
 		$textFuerFlaeche="Rechteckfläche: ";
