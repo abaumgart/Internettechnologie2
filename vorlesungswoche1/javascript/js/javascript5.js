@@ -1,15 +1,19 @@
 // JavaScript Document
-// Operatoren für das Arbeiten mit Zahlen
+// Steuerung des Programmablaufs
 
-let o1=2;
-let o2=9;
-let ergebnisAddition=o1+o2;
-let ergebnisModulo= o1%o2;
-o1++; //Inkrement-Operator
-o1=o1+4
-o1--; // Dekrement-Operator
+// if-Anweisung
 
-console.log(o1);
+let istAnwenderAngemeldet= false;
+
+if(istAnwenderAngemeldet==true)
+	{
+		let ausgabe = 'Herzlich Willkommen';
+		document.getElementById('nachricht').textContent=ausgabe;
+	} else 
+		{
+			let ausgabe = 'Bitte erst anmelden';
+			document.getElementById('nachricht').textContent=ausgabe;
+		}
 
 
 
