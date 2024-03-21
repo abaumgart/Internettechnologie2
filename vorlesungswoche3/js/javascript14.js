@@ -30,7 +30,7 @@ function spliceMethode()
 	/* Arbeiten mit splice() Fügt Eintrag an beliebiger Stelle hinzu. Benötigt Parameter. 
 	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
 	*/
-	todo.splice(spliceStelle,0,aufgabe); // fügt das Element 
+	todo.splice(spliceStelle,0,aufgabe); // fügt das Element an der Stelle hinzu, die der Anwender eingegeben hat.
 	document.getElementById('ausgabe').value= todo;
 	console.log(todo.length);
 	
@@ -52,4 +52,23 @@ function shiftMethode()
 	
 }
 
+function spliceDeleteMethode()
+{
+	// Lese aus dem Formular das Feld aus. Eingetragener Wert entspricht dem index, an der an Element gelöscht werden soll.
+	let loeschenAb=document.getElementById('loeschenAb').value;
+	let anzElemente=document.getElementById('anzElemente').value;
+	/* Arbeiten mit splice() Fügt Eintrag an beliebiger Stelle hinzu. Benötigt Parameter. 
+	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice
+	*/
+	todo.splice(loeschenAb,anzElemente); // fügt das Element an der Stelle hinzu, die der Anwender eingegeben hat.
+	document.getElementById('ausgabe').value= todo;
+	console.log(todo.length);
+	
+}
 
+function listeUmkehren()
+{
+	todo.reverse(); // fügt das Element an der Stelle hinzu, die der Anwender eingegeben hat.
+	document.getElementById('ausgabe').value= todo;
+	console.log(todo.length);
+}
