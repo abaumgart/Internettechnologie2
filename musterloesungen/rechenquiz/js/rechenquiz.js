@@ -2,8 +2,8 @@
 // Rechenquiz
 // Alle Befehle, die folgen, werden automatisch ausgeführt
 console.log('Seite geladen');
-let emojiKorrekt=String.fromCodePoint(0x1F44D);
-let emojiFalsch= String.fromCodePoint(0x1F44E);
+let emojiKorrekt=String.fromCodePoint(0x1F44D); // Symbol Daumen hoch der Variablen zuweisen
+let emojiFalsch= String.fromCodePoint(0x1F44E); // Symbol Daumen runter der Variablen zuweisen
 let meldungFuerRichtigeLoesung='Wow! Das war super!';
 let meldungFuerFalscheLoesung='Oh! Das kannst du bestimmt besser!';
 let zahlenbereichMin=1;
