@@ -1,28 +1,42 @@
 // JavaScript Document
 // Arbeiten mit functions
 
-let seiteA=15;
-let seiteB=20;
 
-let umfang;
-let flaeche;
-let diagonale;
 
-umfang=seiteA*seiteB;
-ausgabeKonsole(umfang);
+function rechteckberechnung()
+	{
+		let seiteA= 15;
+		let seiteB=20;
 
-flaeche=seiteA*seiteB;
-ausgabeKonsole(flaeche);
+		let umfang;
+		let flaeche;
+		let diagonale;
 
-diagonale= berechneDiagonale(seiteA,seiteB);
-ausgabeKonsole(diagonale);
+		umfang=umfangberechnen(seiteA, seiteB);
+		flaeche= flaecheberechnen(seiteA, seiteB);
+		diagonale= diagonaleberechnen(seiteA, seiteB);
 
-function ausgabeKonsole(meldungstext)
+		ausgabe(umfang);
+		ausgabe(flaeche);
+		ausgabe(diagonale);
+	}
+function diagonaleberechnen(seiteA, seiteB)
+{
+	return Math.sqrt(Math.pow(seiteA,2)+Math.pow(seiteB,2));
+}
+
+function flaecheberechnen(seiteA, seiteB)
+	{
+			return seiteA*seiteB;
+	}
+
+function umfangberechnen(seiteA, seiteB)
+	{
+			return (2*seiteA)+(2*seiteB);
+	}
+
+function ausgabe(meldungstext)
 	{
 			console.warn(meldungstext);
 	}
-
-function berechneDiagonale(a,b)
-	{
-			return Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
-	}
+rechteckberechnung();
