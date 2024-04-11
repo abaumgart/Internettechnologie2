@@ -1,6 +1,7 @@
 // JavaScript Document
 // Rechenquiz
-// Einführung von Listenern
+// Alle Befehle, die folgen, werden automatisch ausgeführt
+
 
 console.log('Seite geladen');
 let emojiKorrekt=String.fromCodePoint(0x1F44D); // Symbol Daumen hoch der Variablen zuweisen
@@ -15,7 +16,6 @@ let summand1=zufallszahl(zahlenbereichMin,zahlenbereichMax);
 let summand2=zufallszahl(zahlenbereichMin,zahlenbereichMax);
 let ergebnis = summand1+summand2;
 let aufgabentext=summand1+'+'+summand2;
-
 // Testweises Ausgeben der Aufgabe auf der Console
 console.log(aufgabentext);
 // Ausgabe der Aufgabe auf der Webseite
@@ -27,7 +27,7 @@ const posHinweise = [
 'Toll!',
 'Spitze!'];
 let posHinweiseMin=0;
-let posHiweiseMax=posHinweise.length;
+let posHinweiseMax=posHinweise.length;
 
 // Array für negative Hinweise
 const negHinweise = [
@@ -35,10 +35,27 @@ const negHinweise = [
 'Das geht besser!',
 'Das war leider nichts'];
 let negHinweiseMin=0;
-let negHiweiseMax=negHinweise.length;
+let negHinweiseMax=negHinweise.length;
 
 document.getElementById('aufgabe').value=aufgabentext;
+// Element holen
+		
+function init()
+	{
+		
+		const userErgebnis=document.getElementById('userErgebnis');
+		userErgebnis.addEventListener( 	// Den Event-Listener registrieren
+									'click',
+									testfunction);
+		console.info('Init-function wurde aufgerufen. Dokument ist geladen');
+	}
 
+document.addEventListener('DOMContentLoaded',init);
+
+function testfunction()
+	{
+		console.info('Ereignis wurde ausgelöst.');
+	}
 
 
 function zufallszahl(min, max)
@@ -56,14 +73,14 @@ function check()
 	if(userWert==ergebnis)
 	   {
 	   		console.log('Richtig!');
-		   hinweistext=posHinweise[zufallszahl(posHinweiseMin,posHiweiseMax)];
+		   hinweistext=posHinweise[zufallszahl(posHinweiseMin,posHinweiseMax)];
 		   	// Zeile wurde deaktiviert, um das Emoji auszugeben
 		   document.getElementById('hinweis').value=hinweistext;
 		   document.getElementById('meldung').value=emojiKorrekt;
 	   }else
 		   {
 			console.log('Falsch!');
-			hinweistext=negHinweise[zufallszahl(negHinweiseMin,negHiweiseMax)];
+			hinweistext=negHinweise[zufallszahl(negHinweiseMin,negHinweiseMax)];
 		   	// Zeile wurde deaktiviert, um das Emoji auszugeben
 		   document.getElementById('hinweis').value=hinweistext;
 		   document.getElementById('meldung').value=emojiFalsch;

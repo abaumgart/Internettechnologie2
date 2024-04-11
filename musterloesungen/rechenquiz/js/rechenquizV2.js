@@ -5,11 +5,9 @@
 console.log('Seite geladen');
 let emojiKorrekt=String.fromCodePoint(0x1F44D); // Symbol Daumen hoch der Variablen zuweisen
 let emojiFalsch= String.fromCodePoint(0x1F44E); // Symbol Daumen runter der Variablen zuweisen
-let meldungFuerRichtigeLoesung='Wow! Das war super!';
-let meldungFuerFalscheLoesung='Oh! Das kannst du bestimmt besser!';
+
 let zahlenbereichMin=1;
 let zahlenbereichMax=10;
-
 
 let summand1=zufallszahl(zahlenbereichMin,zahlenbereichMax);
 let summand2=zufallszahl(zahlenbereichMin,zahlenbereichMax);
@@ -21,21 +19,15 @@ console.log(aufgabentext);
 // Ausgabe der Aufgabe auf der Webseite
 //  Zugriff auf das Element mit der ID=aufgabe
 let hinweistext;
-// Array für positive Hinweise
-const posHinweise = [
-'Super!',
-'Toll!',
-'Spitze!'];
-let posHinweiseMin=0;
-let posHiweiseMax=posHinweise.length;
 
-// Array für negative Hinweise
-const negHinweise = [
-'Ohje!',
-'Das geht besser!',
-'Das war leider nichts'];
-let negHinweiseMin=0;
-let negHiweiseMax=negHinweise.length;
+const ausgabetexte =[
+	['Super','Toll!','Spitze','Wahnsinn!'],
+	['Ohje','Das war nichts','Das geht besser','Ich schaue weg'],
+];
+let hinweiseMin=0;
+let posHinweiseMax=ausgabetexte[0].length;
+let negHinweiseMax=ausgabetexte[1].length;
+
 
 document.getElementById('aufgabe').value=aufgabentext;
 
@@ -56,14 +48,14 @@ function check()
 	if(userWert==ergebnis)
 	   {
 	   		console.log('Richtig!');
-		   hinweistext=posHinweise[zufallszahl(posHinweiseMin,posHiweiseMax)];
+		   hinweistext=ausgabetexte[0][zufallszahl(hinweiseMin,posHinweiseMax)];
 		   	// Zeile wurde deaktiviert, um das Emoji auszugeben
 		   document.getElementById('hinweis').value=hinweistext;
 		   document.getElementById('meldung').value=emojiKorrekt;
 	   }else
 		   {
 			console.log('Falsch!');
-			hinweistext=negHinweise[zufallszahl(negHinweiseMin,negHiweiseMax)];
+			hinweistext=ausgabetexte[1][zufallszahl(hinweiseMin,negHinweiseMax)];
 		   	// Zeile wurde deaktiviert, um das Emoji auszugeben
 		   document.getElementById('hinweis').value=hinweistext;
 		   document.getElementById('meldung').value=emojiFalsch;
