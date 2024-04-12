@@ -1,62 +1,38 @@
 // JavaScript Document
 // Rechenquiz
-// Alle Befehle, die folgen, werden automatisch ausgeführt
-
+// Einführung von Listenern
 
 console.log('Seite geladen');
 let emojiKorrekt=String.fromCodePoint(0x1F44D); // Symbol Daumen hoch der Variablen zuweisen
 let emojiFalsch= String.fromCodePoint(0x1F44E); // Symbol Daumen runter der Variablen zuweisen
-let meldungFuerRichtigeLoesung='Wow! Das war super!';
-let meldungFuerFalscheLoesung='Oh! Das kannst du bestimmt besser!';
+
 let zahlenbereichMin=1;
 let zahlenbereichMax=10;
-
 
 let summand1=zufallszahl(zahlenbereichMin,zahlenbereichMax);
 let summand2=zufallszahl(zahlenbereichMin,zahlenbereichMax);
 let ergebnis = summand1+summand2;
 let aufgabentext=summand1+'+'+summand2;
+
 // Testweises Ausgeben der Aufgabe auf der Console
 console.log(aufgabentext);
 // Ausgabe der Aufgabe auf der Webseite
 //  Zugriff auf das Element mit der ID=aufgabe
 let hinweistext;
-// Array für positive Hinweise
-const posHinweise = [
-'Super!',
-'Toll!',
-'Spitze!'];
-let posHinweiseMin=0;
-let posHinweiseMax=posHinweise.length;
+const ausgabetexte = [ 
+			{
+				txtFuerRichtigeAntworten:['Super','Toll!','Spitze','Wahnsinn!']
+			},
+			{
+				txtFuerFalscheAntworten:['Ohje','Das war nichts','Das geht besser','Ich schaue weg']
+			}	
+		];
 
-// Array für negative Hinweise
-const negHinweise = [
-'Ohje!',
-'Das geht besser!',
-'Das war leider nichts'];
-let negHinweiseMin=0;
-let negHinweiseMax=negHinweise.length;
+let hinweiseMin=0;
+let posHinweiseMax=ausgabetexte[0].txtFuerRichtigeAntworten.length-1;
+let negHinweiseMax=ausgabetexte[1].txtFuerFalscheAntworten.length-1;
 
 document.getElementById('aufgabe').value=aufgabentext;
-// Element holen
-		
-function init()
-	{
-		
-		const userErgebnis=document.getElementById('userErgebnis');
-		userErgebnis.addEventListener( 	// Den Event-Listener registrieren
-									'click',
-									testfunction);
-		console.info('Init-function wurde aufgerufen. Dokument ist geladen');
-	}
-
-document.addEventListener('DOMContentLoaded',init);
-
-function testfunction()
-	{
-		console.info('Ereignis wurde ausgelöst.');
-	}
-
 
 function zufallszahl(min, max)
 	{
@@ -73,16 +49,49 @@ function check()
 	if(userWert==ergebnis)
 	   {
 	   		console.log('Richtig!');
-		   hinweistext=posHinweise[zufallszahl(posHinweiseMin,posHinweiseMax)];
+		   hinweistext=ausgabetexte[0].txtFuerRichtigeAntworten[zufallszahl(hinweiseMin,posHinweiseMax)];
+		   
 		   	// Zeile wurde deaktiviert, um das Emoji auszugeben
 		   document.getElementById('hinweis').value=hinweistext;
 		   document.getElementById('meldung').value=emojiKorrekt;
 	   }else
 		   {
 			console.log('Falsch!');
-			hinweistext=negHinweise[zufallszahl(negHinweiseMin,negHinweiseMax)];
+			hinweistext=ausgabetexte[1].txtFuerFalscheAntworten[zufallszahl(hinweiseMin,negHinweiseMax)];
 		   	// Zeile wurde deaktiviert, um das Emoji auszugeben
 		   document.getElementById('hinweis').value=hinweistext;
 		   document.getElementById('meldung').value=emojiFalsch;
 		   }
 }
+		
+function init()
+	{
+		
+		const chkButton=document.getElementById('checkButton');
+		const userErgebnis=document.getElementById('userErgebnis');
+		chkButton.addEventListener( 	// Den Event-Listener registrieren
+									'click',
+									check);
+		userErgebnis.addEventListener( 	// Den Event-Listener registrieren
+									'blur', // Wenn das Eingabefeld den Fokus verliert
+									check);
+		
+		window.addEventListener('keydown', (event) => 
+								{
+								if(event.key!== undefined)
+									{
+										console.log('Taste: '+event.key+' wurde gedrückt');
+										switch (event.key)
+											{
+												case 'Enter': 
+																check();
+																break;
+											}
+									}
+								}
+			
+								)
+		console.info('Init-function wurde aufgerufen. Dokument ist geladen');
+	}
+
+document.addEventListener('DOMContentLoaded',init);

@@ -19,19 +19,20 @@ console.log(aufgabentext);
 // Ausgabe der Aufgabe auf der Webseite
 //  Zugriff auf das Element mit der ID=aufgabe
 let hinweistext;
+const ausgabetexte = [ 
+			{
+				txtFuerRichtigeAntworten:['Super','Toll!','Spitze','Wahnsinn!']
+			},
+			{
+				txtFuerFalscheAntworten:['Ohje','Das war nichts','Das geht besser','Ich schaue weg']
+			}	
+		];
 
-const ausgabetexte =[
-	['Super','Toll!','Spitze','Wahnsinn!'], // index 0
-	['Ohje','Das war nichts','Das geht besser','Ich schaue weg'] // index 1
-];
 let hinweiseMin=0;
-let posHinweiseMax=ausgabetexte[0].length-1;
-let negHinweiseMax=ausgabetexte[1].length-1;
-
+let posHinweiseMax=ausgabetexte[0].txtFuerRichtigeAntworten.length-1;
+let negHinweiseMax=ausgabetexte[1].txtFuerFalscheAntworten.length-1;
 
 document.getElementById('aufgabe').value=aufgabentext;
-
-
 
 function zufallszahl(min, max)
 	{
@@ -48,14 +49,15 @@ function check()
 	if(userWert==ergebnis)
 	   {
 	   		console.log('Richtig!');
-		   hinweistext=ausgabetexte[0][zufallszahl(hinweiseMin,posHinweiseMax)];
+		   hinweistext=ausgabetexte[0].txtFuerRichtigeAntworten[zufallszahl(hinweiseMin,posHinweiseMax)];
+		   
 		   	// Zeile wurde deaktiviert, um das Emoji auszugeben
 		   document.getElementById('hinweis').value=hinweistext;
 		   document.getElementById('meldung').value=emojiKorrekt;
 	   }else
 		   {
 			console.log('Falsch!');
-			hinweistext=ausgabetexte[1][zufallszahl(hinweiseMin,negHinweiseMax)];
+			hinweistext=ausgabetexte[1].txtFuerFalscheAntworten[zufallszahl(hinweiseMin,posHinweiseMax)];
 		   	// Zeile wurde deaktiviert, um das Emoji auszugeben
 		   document.getElementById('hinweis').value=hinweistext;
 		   document.getElementById('meldung').value=emojiFalsch;
