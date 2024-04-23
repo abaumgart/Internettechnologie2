@@ -1,0 +1,10 @@
+/* CSS Document */
+.border {
+    border: thick solid grey;
+    border-radius: 25px;
+    padding: 5px 25px 25px 25px;
+}
+
+.testQSall {
+	border: thick solid grey;
+}

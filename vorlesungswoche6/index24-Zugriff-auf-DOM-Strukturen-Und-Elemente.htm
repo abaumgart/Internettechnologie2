@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Webseiten dynamisch ändern</title>
+	<link style="text/css" rel="stylesheet" href="css/style.css">
+</head>		
+<body>
+<h1>Webseiten dynamisch ändern</h1>
+		<table id="tblDocument" >
+		  
+			<thead >
+				<tr name="tabellenkopfreihe">
+				  <th>Eigenschaft</th>
+				  <th>Erklärung</th>
+				</tr>
+			</thead>
+			<tbody>
+		    <tr>
+		      <td>document.title</td>
+		      <td>Enthält den Titel des aktuellen Dokuments.</td>
+	        </tr>
+		    <tr class="even">
+		      <td>document.lastModified</td>
+		      <td>Enthält das Datum, an dem das Dokument zuletzt geändert wurde.</td>
+	        </tr>
+		    <tr>
+		      <td>document.URL</td>
+		      <td>Enthält eine URL des aktuellen Dokuments. </td>
+	        </tr>
+		    <tr class="even">
+		      <td>document.domain</td>
+		      <td>Enthält die Domäne des aktuellen Dokuments. </td>
+	        </tr>
+		    <tr>
+		      <td class="testQSall">document.cookie</td>
+		      <td>Enthält eine Liste aller Cookies für das Dokument. </td>
+	        </tr>
+		    <tr>
+		      <td class="testQSall">document.forms</td>
+		      <td>Enthält eine Liste aller Formulare des Dokuments. </td>
+	        </tr>
+		    <tr>
+		      <td>document.images</td>
+		      <td>Enthält eine Liste aller Bilder des Dokuments. </td>
+	        </tr>
+		    <tr>
+		      <td class="testQSall">document.links</td>
+		      <td>Enthält eine Liste aller Links des Dokuments </td>
+	        </tr>
+	      </tbody>
+</table>
+		<h1>Möglichkeiten, Elemente zu selektieren             </h1>
+		<table id="tblElementeSelektieren">
+			
+		  
+			 <thead>
+				<tr>
+				  <th>Eigenschaft / Methode</th>
+				  <th>Erklärung</th>
+				  <th>Rückgabewert</th>
+				</tr>
+			 </thead>
+			<tbody>
+		    <tr>
+		      <td>getElementById()</td>
+		      <td>Wählt ein Element einzelnes anhand einer ID aus.</td>
+		      <td>einzelnes Element</td>
+	        </tr>
+		    <tr>
+		      <td>getElementsByClassName()</td>
+		      <td>Wählt Elemente anhand eines Klassennamens aus.</td>
+		      <td>Liste von Elementen</td>
+	        </tr>
+		    <tr>
+		      <td>getElementsByTagName()</td>
+		      <td>Wählt alle Elemente mit dem angegebenen Elementnamen aus.</td>
+		      <td>Liste von Elementen</td>
+	        </tr>
+		    <tr>
+		      <td>getElementsByName()</td>
+		      <td>Wählt Elemente anhand ihres	Namens aus.</td>
+		      <td>Liste von Elementen</td>
+	        </tr>
+		    <tr>
+		      <td>querySelector()</td>
+		      <td>Gibt das erste Element zurück, das auf einen gegebenen CSS-Selektor passt.</td>
+		      <td>einzelnes Element</td>
+	        </tr>
+		    <tr>
+		      <td>querySelectorAll()</td>
+		      <td>Gibt alle Elemente zurück, die auf einen gegebenen CSSSelektor passen.</td>
+		      <td>Liste von Elementen</td>
+	        </tr>
+		    <tr>
+		      <td>parentElement </td>
+		      <td>Gibt für einen Knoten das Elternelement zurück.</td>
+		      <td>einzelnes Element</td>
+	        </tr>
+		    <tr>
+		      <td>parentNode</td>
+		      <td>Gibt für einen Knoten den Elternknoten zurück.</td>
+		      <td>einzelner Knoten</td>
+	        </tr>
+		    <tr>
+		      <td>previousElementSibling</td>
+		      <td>Gibt für einen Knoten das vorhergehende Geschwisterelement zurück.</td>
+		      <td>einzelnes Element</td>
+	        </tr>
+		    <tr>
+		      <td>previousSibling</td>
+		      <td>Gibt für einen Knoten den vorhergehenden Geschwisterknoten zurück.</td>
+		      <td>einzelner Knoten</td>
+	        </tr>
+		    <tr>
+		      <td>nextElementSibling</td>
+		      <td>Gibt für einen Knoten das nachfolgende Geschwisterelement zurück.</td>
+		      <td>einzelnes Element</td>
+	        </tr>
+		    <tr>
+		      <td>nextSibling</td>
+		      <td>Gibt für einen Knoten den nachfolgenden Geschwisterknoten zurück.</td>
+		      <td>einzelner Knoten</td>
+	        </tr>
+		    <tr>
+		      <td>firstElementChild</td>
+		      <td>Gibt für einen Knoten das erste Kindelement zurück.</td>
+		      <td>einzelnes Element</td>
+	        </tr>
+		    <tr>
+		      <td>firstChild</td>
+		      <td>Gibt für einen Knoten den ersten Kindknoten zurück.</td>
+		      <td>einzelner Knoten</td>
+	        </tr>
+		    <tr>
+		      <td>lastElementChild</td>
+		      <td>Gibt für einen Knoten das letzte Kindelement zurück.</td>
+		      <td>einzelnes Element</td>
+	        </tr>
+		    <tr>
+		      <td>lastChild </td>
+		      <td>Gibt für einen Knoten den letzten Kindknoten zurück.</td>
+		      <td>einzelner Knoten</td>
+	        </tr>
+		    <tr>
+		      <td>children</td>
+		      <td>Gibt für einen Knoten alle Kindelemente zurück.</td>
+		      <td>Liste von Elementen</td>
+	        </tr>
+		    <tr>
+		      <td>childNodes</td>
+		      <td>Gibt für einen Knoten alle Kindknoten zurück.</td>
+		      <td>Liste von Knoten</td>
+	        </tr>
+	      </tbody>
+</table>	
+	<script src="js/javascript24.js"></script>
+</body>
+</html>
