@@ -8,3 +8,18 @@
 .testQSall {
 	border: thick solid grey;
 }
+
+
+/* StyleSheets für Beispiele ab index28 */
+
+.loeschen 
+	{ 	
+		border: thin solid red;
+		border-radius: 5px;
+	}
+
+.erstellen 
+	{ 	
+		border: thin solid green;
+		border-radius: 5px;
+	}

@@ -81,5 +81,5 @@ if(queryTabellenzellen.length > 0)
 
 // Das Elternelement eines Elements selektieren
 const tabelle = document.querySelector('table');
-console.log(tabelle.parentNode); // <main>
-console.log(tabelle.parentElement); // <main>
+console.log(tabelle.parentNode); // <body>
+console.log(tabelle.parentElement); // <body>
