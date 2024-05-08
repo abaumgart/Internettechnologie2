@@ -13,7 +13,7 @@ function init() {
 
 
   const form = document.getElementById('login');
-  console.log(form.elements);           // Formularelemente, Details später
+  console.log(form.elements);           // Formularelemente, 
   console.log(form.length);             // Anzahl Formularelemente
   console.log(form.name);               // Name des Formulars, hier "login"
   console.log(form.action);             // Inhalt des "action"-Attributs
