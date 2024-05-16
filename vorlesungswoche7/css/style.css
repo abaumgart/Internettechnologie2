@@ -1,6 +1,17 @@
 /* CSS Document */
-.circle {
-            position: absolute;
-            border-radius: 50%;
-            background-color: red;
+@keyframes rotation {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+.zahnrad {
+            /* Animation wird unendlich oft ausgeführt */
+            animation: rotation 6s linear infinite;
+            /* Zentrierung der Drehung um die Mitte */
+            transform-box: fill-box;
+            transform-origin: center;
         }
