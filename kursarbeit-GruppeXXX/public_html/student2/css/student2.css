@@ -1,0 +1,86 @@
+/* CSS Document */
+ /* Grundlegendes Reset für die Menü- und Untermenü-Listenelemente */
+.Menue, .Menue ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Horizontale Anordnung der Hauptmenüelemente */
+.Menue > ul {
+    display: flex;
+}
+
+/* Stilisierung der Hauptmenülinks */
+.Menue > ul > li > a {
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    background-color: #f0f0f0;
+    color: black;
+}
+
+/* Hover-Effekt für alle Links */
+.Menue a:hover {
+    background-color: #ccc;
+}
+
+/* Untermenüs verbergen und bei Hover des Elternelements einblenden */
+.Menue ul ul {
+    display: none;
+    position: absolute;
+    background-color: #f0f0f0; /* gleicher Hintergrund wie Hauptmenülinks */
+}
+
+.Menue ul li:hover > ul {
+    display: block;
+}
+
+/* Einzelpunkt-Stil für Untermenüelemente */
+.Menue ul ul li {
+    display: block; /* Sorgt dafür, dass die Untermenüelemente vertikal gestapelt werden */
+}
+
+/* Optional: Zusätzlicher Stil für Untermenülinks */
+.Menue ul ul a {
+    padding: 5px;
+    white-space: nowrap; /* Verhindert das Umbruch von Text in Untermenüpunkten */
+}
+
+/* Verzögerung des Ausblendens für Untermenüs */
+.Menue ul ul {
+    visibility: hidden; /* Macht das Untermenü unsichtbar, lässt aber den Platz frei */
+    opacity: 0;
+    transition: visibility 0s linear 0.5s, opacity 0.5s linear;
+}
+
+.Menue li:hover > ul {
+    visibility: visible; /* Macht das Untermenü sichtbar */
+    opacity: 1;
+    transition-delay: 0s; /* Keine Verzögerung beim Einblenden */
+}
+
+
+  /* CSS für die Tabelle */
+    table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        box-shadow: 0 2px 3px rgba(188,185,185,0.10);
+    }
+    th, td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+    th {
+        background-color: #FDBDBE;
+        color: #333;
+    }
+    tr:nth-child(odd) {
+        background-color: #f9f9f9;
+    }
+    tr:hover {
+        background-color: #F7D0F3;
+    }
+
