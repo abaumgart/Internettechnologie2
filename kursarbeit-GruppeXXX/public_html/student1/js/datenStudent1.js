@@ -19,6 +19,16 @@ const zentraleDatenStudent1 = [{
     Name: "Andre",
     Alter: 34,
     Größe: 174
+  },
+ {
+    Name: "Werner",
+    Alter: 77,
+    Größe: 170
+  },
+  {
+    Name: "Andrea",
+    Alter: 56,
+    Größe: 165
   }
 ];
 
@@ -119,8 +129,12 @@ const formularElemente = [{
         value: '2',
         text: 'Recherchieren'
       },
-      {
+		 {
         value: '3',
+        text: 'Reisen'
+      },
+      {
+        value: '4',
         text: 'Programmieren'
       }
     ],

@@ -29,6 +29,6 @@ document.addEventListener('DOMContentLoaded',init);
 
 function datenAusFormular()
 	{
-		datenAusDemFormular= formularStudent1.holeFormulardaten();
-		console.log(datenAusDemFormular);
+		datenAusDemFormularStudent1= formularStudent1.holeFormulardaten();
+		console.log(datenAusDemFormularStudent1);
 	}

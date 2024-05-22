@@ -9,8 +9,10 @@ const menueStrukturIndex = [
         new MenuPunkt('Anwendung Student 2', 'student2/index.html'),
 		new MenuPunkt('Anwendung Student 3', 'student3/index.html')
     ]),
-    new MenuPunkt('Aufgabenbeschreibung', 'aufgabenbeschreibung.html')
+    new MenuPunkt('Aufgabenbeschreibung', 'aufgabenbeschreibung.html'),
+
 ];
+
 const menueIndexSeite = new Menue('menuContainer', menueStrukturIndex);
 
 function init()
