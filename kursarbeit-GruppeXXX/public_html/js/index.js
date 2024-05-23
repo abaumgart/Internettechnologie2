@@ -10,6 +10,7 @@ const menueStrukturIndex = [
 		new MenuPunkt('Anwendung Student 3', 'student3/index.html')
     ]),
     new MenuPunkt('Aufgabenbeschreibung', 'aufgabenbeschreibung.html'),
+	new MenuPunkt('Jade HS', 'aufgabenbeschreibung.html'),
 
 ];
 
