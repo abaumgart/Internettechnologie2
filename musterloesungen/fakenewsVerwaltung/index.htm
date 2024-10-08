@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artikelverwaltung</title>
+    <style>
+        .fake-news {
+            background-color: lightcoral;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fake News Artikelverwaltung</h1>
+    <form id="artikelFormular">
+        <label for="titel">Titel:</label><br>
+        <input type="text" id="titel" name="titel"><br>
+        <label for="quelle">Quelle:</label><br>
+        <input type="text" id="quelle" name="quelle"><br>
+        <label for="datum">Datum:</label><br>
+        <input type="date" id="datum" name="datum"><br>
+        <label for="istFakeNews">Fake News?</label>
+        <input type="checkbox" id="istFakeNews" name="istFakeNews"><br><br>
+        <input type="button" value="Artikel hinzufügen" onclick="artikelHinzufuegen()">
+    </form>
+
+    <h2>Artikel</h2>
+    <ul id="artikelListe"></ul>
+
+    <script src="js/javascript.js"></script>
+</body>
+</html>
