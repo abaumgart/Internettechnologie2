@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FantasyFigur – Kollisionen mit "Autsch" & Transparenz</title>
+  <style>
+    :root { --bg:#0b1020; --card:#131a33; --ink:#eaf0ff; --muted:#9fb0ff; --accent:#7aa2ff; --ok:#32d583; }
+    *{box-sizing:border-box}
+    body{margin:0; font:16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--ink)}
+    .wrap{max-width:1100px; margin:0 auto; padding:24px}
+    h1{margin:0 0 4px}
+    .muted{color:var(--muted)}
+    .card{background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px; box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .row{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    label{font-weight:600}
+    input[type="text"], input[type="number"], input[type="range"]{padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.15); background:#0f1530; color:var(--ink)}
+    input[type="number"]{width:8rem}
+    .btn{cursor:pointer; padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.15); background:#101735; color:var(--ink); font-weight:700}
+    .btn.primary{background:linear-gradient(180deg, var(--accent), #5474ff); border-color:transparent}
+    .stage{position:relative; height:68vh; min-height:380px; margin-top:16px; border:2px dashed rgba(255,255,255,.18); border-radius:16px; background:radial-gradient(1200px 400px at 20% 10%, rgba(122,162,255,.12), transparent 60%), #0c1333; overflow:hidden}
+    .sprite{position:absolute; font-size:48px; line-height:1; user-select:none; transition: transform .25s ease}
+    .sprite:hover{transform: scale(1.15)}
+    .legend{font-size:14px}
+    .legend code{background:#0f1530; border:1px solid rgba(255,255,255,.15); padding:2px 6px; border-radius:8px}
+
+    /* Tooltip-Bubble */
+    .tooltip{ position:absolute; pointer-events:none; transform:translate(-50%, calc(-100% - 14px)); background:#0f1538; color:var(--ink); border:1px solid rgba(255,255,255,.15); border-radius:10px; padding:8px 10px; font-size:13px; box-shadow:0 6px 20px rgba(0,0,0,.35); white-space:nowrap; z-index:10; }
+    .tooltip::after{ content:""; position:absolute; left:50%; bottom:-7px; transform:translateX(-50%); border-width:7px; border-style:solid; border-color:#0f1538 transparent transparent transparent; filter:drop-shadow(0 -1px 0 rgba(255,255,255,.15)); }
+    .kv{ display:grid; grid-template-columns:auto auto; gap:2px 8px; }
+    .kv .k{ color: var(--muted); }
+    .kv .v.ok{ color: var(--ok); }
+    .stars{ letter-spacing: 1px; font-size: 12px; }
+
+    /* Autsch-Bubble */
+    .ouch{ position:absolute; transform:translate(-50%, -150%); background:#ff3b3b; color:white; padding:6px 10px; border-radius:8px; font-weight:800; box-shadow:0 6px 20px rgba(0,0,0,.35); z-index:12; opacity:0.95 }
+    .ouch::after{ content:""; position:absolute; left:50%; bottom:-7px; transform:translateX(-50%); border-width:7px; border-style:solid; border-color:#ff3b3b transparent transparent transparent; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🧪 FantasyFigur – Kollisionen: "Autsch" & Transparenz</h1>
+      <p class="muted">Bei einer <strong>Kollision</strong> bekommt die Figur mit der <em>geringeren Spielstärke</em> eine rote „Autsch“-Bubble (5 s) und wird für 15 s um 50 % transparenter. Danach wieder 100 %.</p>
+    </header>
+
+    <section class="card" aria-labelledby="steuerung">
+      <h2 id="steuerung" style="margin-top:0">Steuerung</h2>
+      <div class="row" style="margin-bottom:8px">
+        <label for="emoji">Emoji</label>
+        <input id="emoji" type="text" value="🧙‍♂️" aria-label="Emoji" />
+        <label for="anzahl">Anzahl</label>
+        <input id="anzahl" type="number" min="1" max="300" step="1" value="40" aria-label="Anzahl" />
+      </div>
+      <div class="row" style="gap:18px; margin-bottom:8px">
+        <div>
+          <label for="pGedanken">Wahrscheinlichkeit Gedankenlesen: <span id="pGedankenVal">50%</span></label><br/>
+          <input id="pGedanken" type="range" min="0" max="100" value="50" />
+        </div>
+        <div>
+          <label for="pWillen">Wahrscheinlichkeit Willensstark: <span id="pWillenVal">50%</span></label><br/>
+          <input id="pWillen" type="range" min="0" max="100" value="50" />
+        </div>
+      </div>
+      <div class="row">
+        <button id="erzeugen" class="btn primary" type="button">Objekte erzeugen</button>
+        <button id="allefliegen" class="btn" type="button">Alle fliegen()</button>
+      </div>
+      <p class="legend muted">Abprallen an den Rändern bleibt aktiv. Objekt-Objekt-Kollisionen lösen Effekte aus (ohne Impulsübertragung). Kollisionen bei gleicher Spielstärke werden ignoriert.</p>
+      <div id="stage" class="stage" aria-label="Spielfeld" role="region"></div>
+    </section>
+  </div>
+
+  <script>
+    // ======= Klasse (2 Booleans + Spielstärke, 1 Fähigkeit) =======
+    class FantasyFigur {
+      /**
+       * @param {string} emoji
+       * @param {{gedankenlesen?: boolean, willensstark?: boolean, spielstaerke?: number}} [opts]
+       */
+      constructor(emoji, { gedankenlesen = false, willensstark = false, spielstaerke = 1 } = {}){
+        if (typeof emoji !== 'string' || emoji.trim() === '') {
+          throw new TypeError('emoji muss ein nicht-leerer String sein.');
+        }
+        if (typeof gedankenlesen !== 'boolean' || typeof willensstark !== 'boolean') {
+          throw new TypeError('gedankenlesen und willensstark müssen Boolean sein.');
+        }
+        if (!Number.isInteger(spielstaerke) || spielstaerke < 1 || spielstaerke > 10) {
+          throw new RangeError('spielstaerke muss eine ganze Zahl von 1 bis 10 sein.');
+        }
+        this.emoji = emoji;
+        this.gedankenlesen = gedankenlesen;
+        this.willensstark = willensstark;
+        this.spielstaerke = spielstaerke;
+      }
+      fliegen(){ return `${this.emoji} fliegt in die Lüfte!`; }
+    }
+
+    // ======= UI-Logik & Physik =======
+    const $ = (id) => document.getElementById(id);
+    const $emoji = $('emoji');
+    const $anzahl = $('anzahl');
+    const $pGedanken = $('pGedanken');
+    const $pWillen = $('pWillen');
+    const $pGedankenVal = $('pGedankenVal');
+    const $pWillenVal = $('pWillenVal');
+    const $erzeugen = $('erzeugen');
+    const $allefliegen = $('allefliegen');
+    const $stage = $('stage');
+
+    /** @type {Array<{figur: FantasyFigur, el: HTMLElement, x:number, y:number, vx:number, vy:number, r:number, fadeUntil:number, pairCooldown:number} >} */
+    let bodies = [];
+    let rect = null; // Bühne
+    const pad = 24; // Innenabstand
+
+    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+    function randomInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function randBool(p){ return Math.random() < p; }
+
+    // Tooltip-Bubble – wiederverwendet
+    const tooltip = document.createElement('div');
+    tooltip.className = 'tooltip';
+    tooltip.style.display = 'none';
+    tooltip.innerHTML = '<div class="kv">\
+      <span class="k">Gedankenlesen</span><span class="v v-g"></span>\
+      <span class="k">Willensstark</span><span class="v v-w"></span>\
+      <span class="k">Spielstärke</span><span class="v v-s"></span>\
+    </div>';
+    $stage.appendChild(tooltip);
+
+    function stars(n){ return '★'.repeat(n) + '☆'.repeat(10-n); }
+
+    let hovered = null; // aktuell gehovertes Objekt
+
+    function showTooltipForBody(body){
+      const vg = tooltip.querySelector('.v-g');
+      const vw = tooltip.querySelector('.v-w');
+      const vs = tooltip.querySelector('.v-s');
+      vg.textContent = body.figur.gedankenlesen ? 'ja' : 'nein';
+      vg.className = 'v v-g' + (body.figur.gedankenlesen ? ' ok' : '');
+      vw.textContent = body.figur.willensstark ? 'ja' : 'nein';
+      vw.className = 'v v-w' + (body.figur.willensstark ? ' ok' : '');
+      vs.innerHTML = `${body.figur.spielstaerke} <span class="stars">${stars(body.figur.spielstaerke)}</span>`;
+      tooltip.style.left = body.x + 'px';
+      tooltip.style.top = body.y + 'px';
+      tooltip.style.display = 'block';
+    }
+    function hideTooltip(){ hovered = null; tooltip.style.display = 'none'; }
+
+    function layoutBounds(){ rect = $stage.getBoundingClientRect(); }
+
+    function makeBody(figur){
+      const el = document.createElement('span');
+      el.className = 'sprite';
+      el.textContent = figur.emoji;
+      $stage.appendChild(el);
+
+      const r = Math.max(16, Math.ceil(el.getBoundingClientRect().height/2));
+      const x = pad + r + Math.random() * (rect.width  - 2*(pad + r));
+      const y = pad + r + Math.random() * (rect.height - 2*(pad + r));
+
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 40 + Math.random() * 160; // 40..200 px/s
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed;
+
+      const body = { figur, el, x, y, vx, vy, r, fadeUntil: 0, pairCooldown: 0 };
+
+      el.addEventListener('mouseenter', () => { hovered = body; showTooltipForBody(body); });
+      el.addEventListener('mouseleave', hideTooltip);
+      el.addEventListener('click', () => { el.classList.remove('flying'); void el.offsetWidth; el.classList.add('flying'); });
+
+      place(body);
+      return body;
+    }
+
+    function place(body){
+      body.el.style.left = body.x + 'px';
+      body.el.style.top  = body.y + 'px';
+      body.el.style.transform = 'translate(-50%, -50%)';
+    }
+
+    function erzeugen(){
+      layoutBounds();
+      $stage.innerHTML = '';
+      $stage.appendChild(tooltip);
+      bodies = [];
+
+      const emoji = $emoji.value.trim() || '✨';
+      const n = clamp(parseInt($anzahl.value, 10) || 0, 1, 300);
+      const pg = clamp(parseInt($pGedanken.value, 10), 0, 100) / 100;
+      const pw = clamp(parseInt($pWillen.value, 10), 0, 100) / 100;
+
+      for (let i=0; i<n; i++){
+        const figur = new FantasyFigur(emoji, {
+          gedankenlesen: randBool(pg),
+          willensstark: randBool(pw),
+          spielstaerke: randomInt(1,10)
+        });
+        bodies.push(makeBody(figur));
+      }
+    }
+
+    function alleFliegen(){
+      bodies.forEach(b => { b.el.classList.remove('flying'); void b.el.offsetWidth; b.el.classList.add('flying'); });
+    }
+
+    $erzeugen.addEventListener('click', erzeugen);
+    $allefliegen.addEventListener('click', alleFliegen);
+
+    // Range-Label live updaten
+    function syncRanges(){
+      $pGedankenVal.textContent = $pGedanken.value + '%';
+      $pWillenVal.textContent = $pWillen.value + '%';
+    }
+    $pGedanken.addEventListener('input', syncRanges);
+    $pWillen.addEventListener('input', syncRanges);
+    syncRanges();
+
+    // ======= Hilfen für Kollision =======
+    function dist2(a,b){ const dx=a.x-b.x, dy=a.y-b.y; return dx*dx + dy*dy; }
+    function collided(a,b){ const rr=(a.r+b.r); return dist2(a,b) <= rr*rr; }
+
+    // temporäre "Autsch"-Bubble erzeugen
+    function showOuch(body){
+      const bubble = document.createElement('div');
+      bubble.className = 'ouch';
+      bubble.textContent = 'Autsch';
+      bubble.style.left = body.x + 'px';
+      bubble.style.top  = body.y + 'px';
+      $stage.appendChild(bubble);
+      setTimeout(() => bubble.remove(), 5000); // 5 s sichtbar
+    }
+
+    // ======= Animations-Loop (Physik + Kollisionseffekte) =======
+    let last = null;
+    function tick(ts){
+      if (last == null) last = ts;
+      const dt = Math.min(0.05, (ts - last) / 1000);
+      last = ts;
+      if (!rect) layoutBounds();
+
+      const minX = pad, maxX = rect.width - pad;
+      const minY = pad, maxY = rect.height - pad;
+
+      // Bewegung + Randkollision
+      for (const b of bodies){
+        b.x += b.vx * dt; b.y += b.vy * dt;
+        if (b.x - b.r < minX){ b.x = minX + b.r; b.vx *= -1; }
+        if (b.x + b.r > maxX){ b.x = maxX - b.r; b.vx *= -1; }
+        if (b.y - b.r < minY){ b.y = minY + b.r; b.vy *= -1; }
+        if (b.y + b.r > maxY){ b.y = maxY - b.r; b.vy *= -1; }
+        place(b);
+      }
+
+      // Objekt-Objekt-Kollisionen (nur Effekte)
+      // Einfaches Debounce: pro Paar max alle 300 ms
+      const now = performance.now();
+      for (let i=0; i<bodies.length; i++){
+        for (let j=i+1; j<bodies.length; j++){
+          const A = bodies[i], B = bodies[j];
+          if (!collided(A,B)) continue;
+
+          const pairKey = i*100000 + j; // deterministische id
+          if (A.pairCooldown === pairKey && now < A.cooldownUntil) continue;
+          if (B.pairCooldown === pairKey && now < B.cooldownUntil) continue;
+
+          // schwächeres Objekt bestimmen; Gleichstand ignorieren
+          if (A.figur.spielstaerke === B.figur.spielstaerke) continue;
+          const weak = (A.figur.spielstaerke < B.figur.spielstaerke) ? A : B;
+
+          // Wenn bereits im Fade, nicht erneut auslösen
+          if (now < weak.fadeUntil){
+            // Setze trotzdem Pair-Cooldown, um Spam zu vermeiden
+            A.pairCooldown = pairKey; B.pairCooldown = pairKey;
+            A.cooldownUntil = now + 300; B.cooldownUntil = now + 300;
+            continue;
+          }
+
+          // Effekte: "Autsch" 5 s + Transparenz 15 s
+          showOuch(weak);
+          weak.el.style.opacity = '0.5';
+          weak.fadeUntil = now + 15000; // 15 s
+
+          // Paar-Cooldown setzen
+          A.pairCooldown = pairKey; B.pairCooldown = pairKey;
+          A.cooldownUntil = now + 300; B.cooldownUntil = now + 300;
+        }
+      }
+
+      // Fade-Ende zurücksetzen
+      for (const b of bodies){
+        if (b.fadeUntil && now >= b.fadeUntil){
+          b.fadeUntil = 0;
+          b.el.style.opacity = '1';
+        }
+      }
+
+      // Tooltip soll dem Objekt folgen
+      if (hovered){ showTooltipForBody(hovered); }
+
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    // Auf Größenänderungen reagieren
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => { layoutBounds(); }, 120);
+    });
+
+    // Startzustand
+    erzeugen();
+  </script>
+</body>
+</html>
