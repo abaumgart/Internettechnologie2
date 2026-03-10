@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beat-Erkennung und Frequenzspektrum mit p5.js</title>
+
+  <!-- Externe CSS-Datei -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- p5.js -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+
+  <!-- p5.sound für Audioeingang, FFT und Peak-Erkennung -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/addons/p5.sound.min.js"></script>
+</head>
+<body>
+  <h1>Beat-Erkennung und Frequenzspektrum</h1>
+  <p>
+    Dieses Beispiel liest ein Eingangssignal über ein Audiointerface ein, untersucht
+    tiefe Frequenzen auf Beat-Impulse und zeigt darunter zusätzlich das Live-Frequenzspektrum.
+  </p>
+
+  <div class="steuerung" id="steuerung"></div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>

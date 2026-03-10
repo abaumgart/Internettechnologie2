@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beat-Erkennung mit p5.js</title>
+
+  <!-- p5.js -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+
+  <!-- p5.sound für Audioeingang, FFT und Peak-Erkennung -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/addons/p5.sound.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f3f3;
+      color: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+    }
+
+    p {
+      max-width: 900px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .steuerung {
+      margin: 16px 0 20px 0;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button, select {
+      font-size: 16px;
+      padding: 10px 14px;
+    }
+
+    canvas {
+      border: 2px solid #222;
+      background: white;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+    }
+  </style>
+</head>
+<body>
+  <h1>Beat-Erkennung mit p5.js</h1>
+  <p>
+    Dieses Beispiel nutzt ein Audiointerface als Eingang, analysiert tiefe Frequenzen
+    und zeigt bei einem erkannten Beat einen Punkt in der Mitte einer horizontalen Linie.
+  </p>
+
+  <div class="steuerung" id="steuerung"></div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>

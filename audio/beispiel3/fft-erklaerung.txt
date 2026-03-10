@@ -1,0 +1,129 @@
+# FFT einfach erklärt
+
+## Was bedeutet FFT?
+
+FFT ist die Abkürzung für **Fast Fourier Transform**.
+
+Das klingt erstmal nach nerdiger Mathematik.  
+Für den Anfang reicht aber diese einfache Idee:
+
+Ein Tonsignal besteht oft nicht nur aus **einem** Ton, sondern aus vielen Anteilen gleichzeitig.
+
+Die FFT hilft dabei, ein Audiosignal zu zerlegen in:
+
+- tiefe Frequenzen
+- mittlere Frequenzen
+- hohe Frequenzen
+
+
+Ein Musiksignal kommt vorne als **ein Gesamtklang** herein.  
+Die FFT schaut und "fragt":
+
+- Wie stark sind gerade die tiefen Töne?
+- Wie stark sind die mittleren Töne?
+- Wie stark sind die hohen Töne?
+
+---
+
+## Warum ist das nützlich?
+
+Wenn du Musik sichtbar machen willst, reicht „laut“ oder „leise“ oft nicht aus.
+
+Mit FFT kann man zum Beispiel:
+
+- Bässe aufleuchten lassen
+- Mitten als Balken darstellen
+- Höhen als Partikel oder Blitze zeigen
+- Beats besser erkennen
+
+Gerade für Kickdrums ist der tiefe Bereich wichtig.
+
+---
+
+## Was passiert in unserem Beispiel?
+
+In unserem Beispiel kommt ein Audiosignal von einem Audiointerface.
+
+Dann passiert Folgendes:
+
+1. Das Signal wird mit `p5.AudioIn()` eingelesen.
+2. `p5.FFT` untersucht das Signal.
+3. Die Analyse schaut besonders auf den Bereich von **40 Hz bis 180 Hz**.
+4. In diesem Bereich sitzen oft Kick und tiefe Beat-Impulse.
+5. `p5.PeakDetect` prüft, ob dort gerade eine deutliche Spitze auftaucht.
+6. Wenn ja, wird in der Mitte der Linie kurz ein Punkt angezeigt.
+
+---
+
+## Wichtiger Gedanke
+
+Das Programm „versteht“ die Musik nicht wirklich.
+
+Es erkennt keine echte musikalische Bedeutung.  
+Es sucht nur nach **deutlichen Veränderungen im Signal**.
+
+Das ist wichtig zu verstehen:
+
+- Die Erkennung ist eine **Näherung**
+- Sie funktioniert bei klaren Beats oft gut
+- Sie funktioniert bei ruhigen Flächen oder sehr komplexem Material schlechter
+
+---
+
+## Was bedeutet der Frequenzbereich 40 Hz bis 180 Hz?
+
+Das ist ein tiefer Bereich.
+
+Dort liegen oft:
+
+- Kickdrums
+- tiefe Bassanteile
+- rhythmische Impulse
+
+Darum ist dieser Bereich für eine einfache Beat-Erkennung ein guter Start.
+
+
+---
+
+## Begriffe aus dem Beispiel
+
+### Audioeingang
+Die Quelle, aus der das Signal kommt, zum Beispiel ein Audiointerface.
+
+### FFT
+Die Analyse, die das Signal in Frequenzbereiche zerlegt.
+
+### Peak
+Eine Spitze im Signal, also ein plötzlicher starker Ausschlag.
+
+### Peak-Erkennung
+Das Programm prüft, ob so eine Spitze gerade auftritt.
+
+### Beat
+In diesem Beispiel: ein kurzer starker Impuls im tiefen Frequenzbereich.
+
+---
+
+## Warum verschwindet der Punkt wieder?
+
+Der Punkt soll nur kurz zeigen:
+
+**Hier wurde gerade ein Beat erkannt.**
+
+Darum bleibt er nicht dauerhaft sichtbar, sondern nur für einen kleinen Moment.
+
+So wirkt die Anzeige direkter und verständlicher.
+
+---
+
+## Fazit
+
+Dieses Beispiel ist ein erster Schritt von:
+
+**Audio hören**  
+zu  
+**Audio messen**  
+zu  
+**Audio sichtbar machen**
+
+Damit wird aus Musik nicht nur Klang, sondern auch ein visuelles Ereignis.
