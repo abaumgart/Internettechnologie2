@@ -1,317 +1,353 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FantasyFigur – Kollisionen mit "Autsch" & Transparenz</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>p5.js Beispiele – Übersicht</title>
   <style>
-    :root { --bg:#0b1020; --card:#131a33; --ink:#eaf0ff; --muted:#9fb0ff; --accent:#7aa2ff; --ok:#32d583; }
-    *{box-sizing:border-box}
-    body{margin:0; font:16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--ink)}
-    .wrap{max-width:1100px; margin:0 auto; padding:24px}
-    h1{margin:0 0 4px}
-    .muted{color:var(--muted)}
-    .card{background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px; box-shadow:0 10px 30px rgba(0,0,0,.25)}
-    .row{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
-    label{font-weight:600}
-    input[type="text"], input[type="number"], input[type="range"]{padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.15); background:#0f1530; color:var(--ink)}
-    input[type="number"]{width:8rem}
-    .btn{cursor:pointer; padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.15); background:#101735; color:var(--ink); font-weight:700}
-    .btn.primary{background:linear-gradient(180deg, var(--accent), #5474ff); border-color:transparent}
-    .stage{position:relative; height:68vh; min-height:380px; margin-top:16px; border:2px dashed rgba(255,255,255,.18); border-radius:16px; background:radial-gradient(1200px 400px at 20% 10%, rgba(122,162,255,.12), transparent 60%), #0c1333; overflow:hidden}
-    .sprite{position:absolute; font-size:48px; line-height:1; user-select:none; transition: transform .25s ease}
-    .sprite:hover{transform: scale(1.15)}
-    .legend{font-size:14px}
-    .legend code{background:#0f1530; border:1px solid rgba(255,255,255,.15); padding:2px 6px; border-radius:8px}
+    :root {
+      --hintergrund: #f5f5f3;
+      --karte: rgba(255,255,255,0.82);
+      --text: #1d1d1f;
+      --muted: #5f6368;
+      --linie: rgba(0,0,0,0.08);
+      --akzent: #1f5eff;
+      --akzent-weich: rgba(31,94,255,0.08);
+      --schatten: 0 12px 34px rgba(0,0,0,0.08);
+      --radius: 18px;
+      --max: 1150px;
+    }
 
-    /* Tooltip-Bubble */
-    .tooltip{ position:absolute; pointer-events:none; transform:translate(-50%, calc(-100% - 14px)); background:#0f1538; color:var(--ink); border:1px solid rgba(255,255,255,.15); border-radius:10px; padding:8px 10px; font-size:13px; box-shadow:0 6px 20px rgba(0,0,0,.35); white-space:nowrap; z-index:10; }
-    .tooltip::after{ content:""; position:absolute; left:50%; bottom:-7px; transform:translateX(-50%); border-width:7px; border-style:solid; border-color:#0f1538 transparent transparent transparent; filter:drop-shadow(0 -1px 0 rgba(255,255,255,.15)); }
-    .kv{ display:grid; grid-template-columns:auto auto; gap:2px 8px; }
-    .kv .k{ color: var(--muted); }
-    .kv .v.ok{ color: var(--ok); }
-    .stars{ letter-spacing: 1px; font-size: 12px; }
+    * { box-sizing: border-box; }
 
-    /* Autsch-Bubble */
-    .ouch{ position:absolute; transform:translate(-50%, -150%); background:#ff3b3b; color:white; padding:6px 10px; border-radius:8px; font-weight:800; box-shadow:0 6px 20px rgba(0,0,0,.35); z-index:12; opacity:0.95 }
-    .ouch::after{ content:""; position:absolute; left:50%; bottom:-7px; transform:translateX(-50%); border-width:7px; border-style:solid; border-color:#ff3b3b transparent transparent transparent; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(31,94,255,0.08), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(0,0,0,0.04), transparent 24%),
+        var(--hintergrund);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .seite {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 40px 0 70px;
+    }
+
+    .kopf {
+      display: grid;
+      gap: 16px;
+      padding: 18px 0 28px;
+    }
+
+    .mini {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: fit-content;
+      padding: 8px 14px;
+      border: 1px solid var(--linie);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.65);
+      color: var(--muted);
+      font-size: 0.9rem;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    .untertitel {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .bereich {
+      margin-top: 28px;
+    }
+
+    .bereich-kopf {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 18px;
+      padding-top: 20px;
+      border-top: 1px solid var(--linie);
+    }
+
+    .bereich-kopf h2 {
+      margin: 0;
+      font-size: clamp(1.25rem, 2vw, 1.8rem);
+      letter-spacing: -0.02em;
+    }
+
+    .bereich-kopf p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 720px;
+    }
+
+    .karten {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .karte {
+      background: var(--karte);
+      border: 1px solid var(--linie);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--schatten);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 230px;
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+
+    .karte:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 36px rgba(0,0,0,0.10);
+      border-color: rgba(31,94,255,0.18);
+    }
+
+    .nummer {
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--akzent-weich);
+      color: var(--akzent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .karte h3 {
+      margin: 0;
+      font-size: 1.12rem;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+
+    .karte p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .link {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      padding: 10px 14px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: white;
+      background: var(--akzent);
+      font-weight: 600;
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    .link:hover {
+      opacity: 0.93;
+      transform: translateY(-1px);
+    }
+
+    .hinweis {
+      margin-top: 34px;
+      padding: 18px 20px;
+      border: 1px solid var(--linie);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.7);
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 720px) {
+      .seite {
+        width: min(var(--max), calc(100% - 24px));
+        padding-top: 24px;
+      }
+
+      .karte {
+        min-height: unset;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1>🧪 FantasyFigur – Kollisionen: "Autsch" & Transparenz</h1>
-      <p class="muted">Bei einer <strong>Kollision</strong> bekommt die Figur mit der <em>geringeren Spielstärke</em> eine rote „Autsch“-Bubble (5 s) und wird für 15 s um 50 % transparenter. Danach wieder 100 %.</p>
+  <main class="seite">
+    <header class="kopf">
+      <div class="mini">p5.js · Audio · Objektorientierung</div>
+      <h1>Beispielübersicht für die p5.js-Reihe</h1>
+      <p class="untertitel">
+        Diese Seite bündelt alle Beispiele vom ersten Einbinden von p5.js bis zu audio-reaktiven Objekten.
+        Jedes Beispiel ist knapp beschrieben und direkt verlinkt.
+      Diese Beispiele  können euch als Grundlage für die weitere Kursarbeit dienen. Die Beispiele wurden in der Veranstaltung und in den Übungen behandelt und erklärt. Sie stehen euch als <a href="https://github.com/abaumgart/Internettechnologie2/tree/main/audio" target="_blank">Download im GitHub-Repository</a> zur Verfügung.</p>
     </header>
 
-    <section class="card" aria-labelledby="steuerung">
-      <h2 id="steuerung" style="margin-top:0">Steuerung</h2>
-      <div class="row" style="margin-bottom:8px">
-        <label for="emoji">Emoji</label>
-        <input id="emoji" type="text" value="🧙‍♂️" aria-label="Emoji" />
-        <label for="anzahl">Anzahl</label>
-        <input id="anzahl" type="number" min="1" max="300" step="1" value="40" aria-label="Anzahl" />
-      </div>
-      <div class="row" style="gap:18px; margin-bottom:8px">
+    <section class="bereich">
+      <div class="bereich-kopf">
         <div>
-          <label for="pGedanken">Wahrscheinlichkeit Gedankenlesen: <span id="pGedankenVal">50%</span></label><br/>
-          <input id="pGedanken" type="range" min="0" max="100" value="50" />
-        </div>
-        <div>
-          <label for="pWillen">Wahrscheinlichkeit Willensstark: <span id="pWillenVal">50%</span></label><br/>
-          <input id="pWillen" type="range" min="0" max="100" value="50" />
+          <h2>Grundlagen</h2>
+          <p>Die ersten Beispiele führen in p5.js, Audioeingang, Beat-Erkennung und Frequenzanalyse ein.</p>
         </div>
       </div>
-      <div class="row">
-        <button id="erzeugen" class="btn primary" type="button">Objekte erzeugen</button>
-        <button id="allefliegen" class="btn" type="button">Alle fliegen()</button>
+      <div class="karten">
+        <article class="karte">
+          <div class="nummer">Beispiel 1</div>
+          <h3>p5.js einbinden und erste Ausgabe</h3>
+          <p>Zeigt die Grundstruktur mit <code>index.html</code> und <code>sketch.js</code>. Sichtbarer Startpunkt für die erste korrekt geladene p5.js-Seite.</p>
+          <a class="link" href="beispiel-1/">Zum Beispiel</a>
+        </article>
+
+        <article class="karte">
+          <div class="nummer">Beispiel 2</div>
+          <h3>Audioampel mit Eingangssignal</h3>
+          <p>Ein Audioeingang wird gemessen. Die Lautstärke steuert eine Ampel mit grün, gelb und rot als einfache visuelle Rückmeldung.</p>
+          <a class="link" href="beispiel-2/">Zum Beispiel</a>
+        </article>
+
+        <article class="karte">
+          <div class="nummer">Beispiel 3</div>
+          <h3>Beat-Erkennung auf einer Linie</h3>
+          <p>Ein Beat wird über FFT und Peak-Erkennung gesucht. Bei einem erkannten Impuls erscheint kurz ein Punkt auf einer horizontalen Linie.</p>
+          <a class="link" href="beispiel-3/">Zum Beispiel</a>
+        </article>
+
+        <article class="karte">
+          <div class="nummer">Beispiel 4</div>
+          <h3>Beat-Punkt und Frequenzspektrum</h3>
+          <p>Erweitert die Beat-Erkennung um ein Live-Spektrum. Zusätzlich ist die Projektstruktur jetzt in HTML, CSS und JavaScript getrennt.</p>
+          <a class="link" href="beispiel-4/">Zum Beispiel</a>
+        </article>
       </div>
-      <p class="legend muted">Abprallen an den Rändern bleibt aktiv. Objekt-Objekt-Kollisionen lösen Effekte aus (ohne Impulsübertragung). Kollisionen bei gleicher Spielstärke werden ignoriert.</p>
-      <div id="stage" class="stage" aria-label="Spielfeld" role="region"></div>
     </section>
-  </div>
 
-  <script>
-    // ======= Klasse (2 Booleans + Spielstärke, 1 Fähigkeit) =======
-    class FantasyFigur {
-      /**
-       * @param {string} emoji
-       * @param {{gedankenlesen?: boolean, willensstark?: boolean, spielstaerke?: number}} [opts]
-       */
-      constructor(emoji, { gedankenlesen = false, willensstark = false, spielstaerke = 1 } = {}){
-        if (typeof emoji !== 'string' || emoji.trim() === '') {
-          throw new TypeError('emoji muss ein nicht-leerer String sein.');
-        }
-        if (typeof gedankenlesen !== 'boolean' || typeof willensstark !== 'boolean') {
-          throw new TypeError('gedankenlesen und willensstark müssen Boolean sein.');
-        }
-        if (!Number.isInteger(spielstaerke) || spielstaerke < 1 || spielstaerke > 10) {
-          throw new RangeError('spielstaerke muss eine ganze Zahl von 1 bis 10 sein.');
-        }
-        this.emoji = emoji;
-        this.gedankenlesen = gedankenlesen;
-        this.willensstark = willensstark;
-        this.spielstaerke = spielstaerke;
-      }
-      fliegen(){ return `${this.emoji} fliegt in die Lüfte!`; }
-    }
+    <section class="bereich">
+      <div class="bereich-kopf">
+        <div>
+          <h2>Kapitel 5 · Einstieg in die Objektorientierung</h2>
+          <p>Ab hier wird aus einzelnen Zeichnungen ein objektorientiertes System mit Klassen, Objekten, Arrays und Audio-Reaktion.</p>
+        </div>
+      </div>
+      <div class="karten">
+        <article class="karte">
+          <div class="nummer">Beispiel 5</div>
+          <h3>Startidee der Objektorientierung</h3>
+          <p>Die grafische Figur wird nicht mehr nur direkt gezeichnet, sondern als Objekt mit Eigenschaften und Verhalten gedacht.</p>
+          <a class="link" href="beispiel-5/">Zum Beispiel</a>
+        </article>
 
-    // ======= UI-Logik & Physik =======
-    const $ = (id) => document.getElementById(id);
-    const $emoji = $('emoji');
-    const $anzahl = $('anzahl');
-    const $pGedanken = $('pGedanken');
-    const $pWillen = $('pWillen');
-    const $pGedankenVal = $('pGedankenVal');
-    const $pWillenVal = $('pWillenVal');
-    const $erzeugen = $('erzeugen');
-    const $allefliegen = $('allefliegen');
-    const $stage = $('stage');
+        <article class="karte">
+          <div class="nummer">Beispiel 5.1</div>
+          <h3>Eine Klasse als Bauplan</h3>
+          <p>Führt die Klasse als grundlegenden Bauplan ein. Es wird gezeigt, dass eine Klasse allein noch kein sichtbares Objekt erzeugt.</p>
+          <a class="link" href="beispiel-5-1/">Zum Beispiel</a>
+        </article>
 
-    /** @type {Array<{figur: FantasyFigur, el: HTMLElement, x:number, y:number, vx:number, vy:number, r:number, fadeUntil:number, pairCooldown:number} >} */
-    let bodies = [];
-    let rect = null; // Bühne
-    const pad = 24; // Innenabstand
+        <article class="karte">
+          <div class="nummer">Beispiel 5.2</div>
+          <h3>Erstes Objekt erzeugen</h3>
+          <p>Aus der Klasse wird eine konkrete Instanz. Die Figur erhält feste Werte für Position und Größe und wird erstmals sichtbar dargestellt.</p>
+          <a class="link" href="beispiel-5-2/">Zum Beispiel</a>
+        </article>
 
-    function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
-    function randomInt(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
-    function randBool(p){ return Math.random() < p; }
+        <article class="karte">
+          <div class="nummer">Beispiel 5.3</div>
+          <h3>Mehrere Objekte derselben Klasse</h3>
+          <p>Zeigt, wie viele Objekte nach demselben Bauplan entstehen können. Damit wird der Nutzen der Klasse praktisch sichtbar.</p>
+          <a class="link" href="beispiel-5-3/">Zum Beispiel</a>
+        </article>
 
-    // Tooltip-Bubble – wiederverwendet
-    const tooltip = document.createElement('div');
-    tooltip.className = 'tooltip';
-    tooltip.style.display = 'none';
-    tooltip.innerHTML = '<div class="kv">\
-      <span class="k">Gedankenlesen</span><span class="v v-g"></span>\
-      <span class="k">Willensstark</span><span class="v v-w"></span>\
-      <span class="k">Spielstärke</span><span class="v v-s"></span>\
-    </div>';
-    $stage.appendChild(tooltip);
+        <article class="karte">
+          <div class="nummer">Beispiel 5.4</div>
+          <h3>Objekte mit Frequenzbereich</h3>
+          <p>Die Figur erhält zusätzliche fachliche Attribute wie <code>frequenzMin</code> und <code>frequenzMax</code> als Vorbereitung für die Audioanalyse.</p>
+          <a class="link" href="beispiel-5-4/">Zum Beispiel</a>
+        </article>
 
-    function stars(n){ return '★'.repeat(n) + '☆'.repeat(10-n); }
+        <article class="karte">
+          <div class="nummer">Beispiel 5.5</div>
+          <h3>Reaktion auf einen Reglerwert</h3>
+          <p>Ein Objekt reagiert auf einen übergebenen Wert. Mit einem Regler wird sichtbar, ab wann die Figur beginnt zu flirren.</p>
+          <a class="link" href="beispiel-5-5/">Zum Beispiel</a>
+        </article>
 
-    let hovered = null; // aktuell gehovertes Objekt
+        <article class="karte">
+          <div class="nummer">Beispiel 5.6</div>
+          <h3>Drei Objekte mit drei Reglern</h3>
+          <p>Mehrere Objekte derselben Klasse reagieren parallel, aber individuell. Unterschiedliche Attribute führen zu unterschiedlichem Verhalten.</p>
+          <a class="link" href="beispiel-5-6/">Zum Beispiel</a>
+        </article>
 
-    function showTooltipForBody(body){
-      const vg = tooltip.querySelector('.v-g');
-      const vw = tooltip.querySelector('.v-w');
-      const vs = tooltip.querySelector('.v-s');
-      vg.textContent = body.figur.gedankenlesen ? 'ja' : 'nein';
-      vg.className = 'v v-g' + (body.figur.gedankenlesen ? ' ok' : '');
-      vw.textContent = body.figur.willensstark ? 'ja' : 'nein';
-      vw.className = 'v v-w' + (body.figur.willensstark ? ' ok' : '');
-      vs.innerHTML = `${body.figur.spielstaerke} <span class="stars">${stars(body.figur.spielstaerke)}</span>`;
-      tooltip.style.left = body.x + 'px';
-      tooltip.style.top = body.y + 'px';
-      tooltip.style.display = 'block';
-    }
-    function hideTooltip(){ hovered = null; tooltip.style.display = 'none'; }
+        <article class="karte">
+          <div class="nummer">Beispiel 5.7</div>
+          <h3>Viele Objekte in einem Array</h3>
+          <p>Objekte werden gemeinsam in einem Array gespeichert und mit Schleifen erzeugt, aktualisiert und angezeigt. OOP trifft auf Datenstrukturen.</p>
+          <a class="link" href="beispiel-5-7/">Zum Beispiel</a>
+        </article>
 
-    function layoutBounds(){ rect = $stage.getBoundingClientRect(); }
+        <article class="karte">
+          <div class="nummer">Beispiel 5.8</div>
+          <h3>Audioanalyse für viele Objekte</h3>
+          <p>Der Regler wird durch echte FFT-Werte ersetzt. Jedes Objekt reagiert auf die Energie seines eigenen Frequenzbereichs.</p>
+          <a class="link" href="beispiel-5-8/">Zum Beispiel</a>
+        </article>
 
-    function makeBody(figur){
-      const el = document.createElement('span');
-      el.className = 'sprite';
-      el.textContent = figur.emoji;
-      $stage.appendChild(el);
+        <article class="karte">
+          <div class="nummer">Beispiel 5.9</div>
+          <h3>Externe SVG als Objektgrafik</h3>
+          <p>Die Darstellung wechselt von der gezeichneten Form zu einer SVG-Datei. Verhalten und Darstellung werden noch klarer voneinander getrennt.</p>
+          <a class="link" href="beispiel-5-9/">Zum Beispiel</a>
+        </article>
 
-      const r = Math.max(16, Math.ceil(el.getBoundingClientRect().height/2));
-      const x = pad + r + Math.random() * (rect.width  - 2*(pad + r));
-      const y = pad + r + Math.random() * (rect.height - 2*(pad + r));
+        <article class="karte">
+          <div class="nummer">Beispiel 5.10</div>
+          <h3>SVG mit Flirren und Skalierung</h3>
+          <p>Ein Objekt reagiert nun mit mehreren visuellen Effekten gleichzeitig: kleine Bewegung und Veränderung der Größe.</p>
+          <a class="link" href="beispiel-5-10/">Zum Beispiel</a>
+        </article>
 
-      const angle = Math.random() * Math.PI * 2;
-      const speed = 40 + Math.random() * 160; // 40..200 px/s
-      const vx = Math.cos(angle) * speed;
-      const vy = Math.sin(angle) * speed;
+        <article class="karte">
+          <div class="nummer">Beispiel 5.11</div>
+          <h3>Mathematische Blattform</h3>
+          <p>Die Figur wird nicht geladen, sondern durch berechnete Punkte konstruiert. Damit wird die Formbeschreibung selbst zum Teil des Programms.</p>
+          <a class="link" href="beispiel-5-11/">Zum Beispiel</a>
+        </article>
 
-      const body = { figur, el, x, y, vx, vy, r, fadeUntil: 0, pairCooldown: 0 };
+        <article class="karte">
+          <div class="nummer">Beispiel 5.12</div>
+          <h3>Pflanze aus Blatt-Objekten</h3>
+          <p>Eine Pflanze wird als zusammengesetztes Objekt modelliert. Die Klasse <code>Pflanze</code> enthält und organisiert viele Objekte der Klasse <code>Blatt</code>.</p>
+          <a class="link" href="beispiel-5-12/">Zum Beispiel</a>
+        </article>
+		<article class="karte">
+          <div class="nummer">Beispiel 5.13</div>
+          <h3>Mehrere Pflanzen aus Blatt-Objekten</h3>
+          <p>In diesem Beispiel werden fünf Pflanzen als eigenständige Objekte derselben Klasse erzeugt. Sie unterscheiden sich in Farbe und Größe, bestehen aber jeweils aus vielen Blatt-Objekten. So wird sichtbar, wie sich objektorientierte Modellierung, Komposition und eine gemeinsame visuelle Szene miteinander verbinden.<code>Blatt</code>.</p>
+          <a class="link" href="beispiel-5-13/">Zum Beispiel</a>
+        </article>
+      </div>
+    </section>
 
-      el.addEventListener('mouseenter', () => { hovered = body; showTooltipForBody(body); });
-      el.addEventListener('mouseleave', hideTooltip);
-      el.addEventListener('click', () => { el.classList.remove('flying'); void el.offsetWidth; el.classList.add('flying'); });
-
-      place(body);
-      return body;
-    }
-
-    function place(body){
-      body.el.style.left = body.x + 'px';
-      body.el.style.top  = body.y + 'px';
-      body.el.style.transform = 'translate(-50%, -50%)';
-    }
-
-    function erzeugen(){
-      layoutBounds();
-      $stage.innerHTML = '';
-      $stage.appendChild(tooltip);
-      bodies = [];
-
-      const emoji = $emoji.value.trim() || '✨';
-      const n = clamp(parseInt($anzahl.value, 10) || 0, 1, 300);
-      const pg = clamp(parseInt($pGedanken.value, 10), 0, 100) / 100;
-      const pw = clamp(parseInt($pWillen.value, 10), 0, 100) / 100;
-
-      for (let i=0; i<n; i++){
-        const figur = new FantasyFigur(emoji, {
-          gedankenlesen: randBool(pg),
-          willensstark: randBool(pw),
-          spielstaerke: randomInt(1,10)
-        });
-        bodies.push(makeBody(figur));
-      }
-    }
-
-    function alleFliegen(){
-      bodies.forEach(b => { b.el.classList.remove('flying'); void b.el.offsetWidth; b.el.classList.add('flying'); });
-    }
-
-    $erzeugen.addEventListener('click', erzeugen);
-    $allefliegen.addEventListener('click', alleFliegen);
-
-    // Range-Label live updaten
-    function syncRanges(){
-      $pGedankenVal.textContent = $pGedanken.value + '%';
-      $pWillenVal.textContent = $pWillen.value + '%';
-    }
-    $pGedanken.addEventListener('input', syncRanges);
-    $pWillen.addEventListener('input', syncRanges);
-    syncRanges();
-
-    // ======= Hilfen für Kollision =======
-    function dist2(a,b){ const dx=a.x-b.x, dy=a.y-b.y; return dx*dx + dy*dy; }
-    function collided(a,b){ const rr=(a.r+b.r); return dist2(a,b) <= rr*rr; }
-
-    // temporäre "Autsch"-Bubble erzeugen
-    function showOuch(body){
-      const bubble = document.createElement('div');
-      bubble.className = 'ouch';
-      bubble.textContent = 'Autsch';
-      bubble.style.left = body.x + 'px';
-      bubble.style.top  = body.y + 'px';
-      $stage.appendChild(bubble);
-      setTimeout(() => bubble.remove(), 5000); // 5 s sichtbar
-    }
-
-    // ======= Animations-Loop (Physik + Kollisionseffekte) =======
-    let last = null;
-    function tick(ts){
-      if (last == null) last = ts;
-      const dt = Math.min(0.05, (ts - last) / 1000);
-      last = ts;
-      if (!rect) layoutBounds();
-
-      const minX = pad, maxX = rect.width - pad;
-      const minY = pad, maxY = rect.height - pad;
-
-      // Bewegung + Randkollision
-      for (const b of bodies){
-        b.x += b.vx * dt; b.y += b.vy * dt;
-        if (b.x - b.r < minX){ b.x = minX + b.r; b.vx *= -1; }
-        if (b.x + b.r > maxX){ b.x = maxX - b.r; b.vx *= -1; }
-        if (b.y - b.r < minY){ b.y = minY + b.r; b.vy *= -1; }
-        if (b.y + b.r > maxY){ b.y = maxY - b.r; b.vy *= -1; }
-        place(b);
-      }
-
-      // Objekt-Objekt-Kollisionen (nur Effekte)
-      // Einfaches Debounce: pro Paar max alle 300 ms
-      const now = performance.now();
-      for (let i=0; i<bodies.length; i++){
-        for (let j=i+1; j<bodies.length; j++){
-          const A = bodies[i], B = bodies[j];
-          if (!collided(A,B)) continue;
-
-          const pairKey = i*100000 + j; // deterministische id
-          if (A.pairCooldown === pairKey && now < A.cooldownUntil) continue;
-          if (B.pairCooldown === pairKey && now < B.cooldownUntil) continue;
-
-          // schwächeres Objekt bestimmen; Gleichstand ignorieren
-          if (A.figur.spielstaerke === B.figur.spielstaerke) continue;
-          const weak = (A.figur.spielstaerke < B.figur.spielstaerke) ? A : B;
-
-          // Wenn bereits im Fade, nicht erneut auslösen
-          if (now < weak.fadeUntil){
-            // Setze trotzdem Pair-Cooldown, um Spam zu vermeiden
-            A.pairCooldown = pairKey; B.pairCooldown = pairKey;
-            A.cooldownUntil = now + 300; B.cooldownUntil = now + 300;
-            continue;
-          }
-
-          // Effekte: "Autsch" 5 s + Transparenz 15 s
-          showOuch(weak);
-          weak.el.style.opacity = '0.5';
-          weak.fadeUntil = now + 15000; // 15 s
-
-          // Paar-Cooldown setzen
-          A.pairCooldown = pairKey; B.pairCooldown = pairKey;
-          A.cooldownUntil = now + 300; B.cooldownUntil = now + 300;
-        }
-      }
-
-      // Fade-Ende zurücksetzen
-      for (const b of bodies){
-        if (b.fadeUntil && now >= b.fadeUntil){
-          b.fadeUntil = 0;
-          b.el.style.opacity = '1';
-        }
-      }
-
-      // Tooltip soll dem Objekt folgen
-      if (hovered){ showTooltipForBody(hovered); }
-
-      requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-
-    // Auf Größenänderungen reagieren
-    let resizeTimer = null;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => { layoutBounds(); }, 120);
-    });
-
-    // Startzustand
-    erzeugen();
-  </script>
+    
+  </main>
 </body>
 </html>

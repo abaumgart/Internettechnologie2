@@ -1,0 +1,82 @@
+Beispiel 5.13 – Erklärung
+
+In diesem Beispiel wird die objektorientierte Modellierung aus dem vorherigen Schritt erweitert.
+Die zentrale Idee lautet nun nicht mehr nur:
+
+- Eine Pflanze besteht aus vielen Blättern.
+
+Sondern zusätzlich:
+
+- Es gibt mehrere Pflanzenobjekte derselben Klasse.
+- Diese Pflanzen unterscheiden sich durch ihre Attributwerte.
+
+1. Die Klasse als Bauplan
+
+Die Klasse Pflanze bleibt der gemeinsame Bauplan. Sie legt fest, welche Eigenschaften und
+welches Verhalten jede Pflanze besitzt. Dazu gehören insbesondere:
+
+- die Position der Pflanze,
+- ihre Grundgröße,
+- ihre Grundfarbe,
+- sowie eine Sammlung von Blattobjekten.
+
+Die Klasse definiert also die Struktur. Sie legt aber noch keine konkrete einzelne Pflanze fest.
+
+2. Die Objekte als konkrete Instanzen
+
+Im Programm werden fünf konkrete Pflanzen erzeugt. Alle fünf sind Instanzen derselben Klasse,
+aber sie erhalten unterschiedliche Werte für Grundgröße und Grundfarbe. Dadurch entsteht der
+entscheidende objektorientierte Zusammenhang:
+
+Gleiche Klasse, unterschiedliche Objekte.
+
+Die Unterschiede der Pflanzen entstehen nicht dadurch, dass fünf verschiedene Klassen geschrieben
+werden, sondern dadurch, dass dieselbe Klasse mit unterschiedlichen Attributwerten verwendet wird.
+
+3. Komposition
+
+Jede Pflanze enthält viele Blattobjekte. Das ist ein Beispiel für Komposition.
+
+Komposition bedeutet hier:
+
+- Die Pflanze hat Blätter.
+- Die Blätter sind Bestandteile der Pflanze.
+- Die Pflanze verwaltet diese Blätter.
+
+Die Pflanze ist damit ein zusammengesetztes Objekt. Sie ist also nicht bloß eine einzelne Form,
+sondern ein Objekt, das aus weiteren Objekten aufgebaut ist.
+
+4. Ableitung von Eigenschaften
+
+Die Blattobjekte erhalten ihre Eigenschaften nicht völlig unabhängig, sondern teilweise in
+Abhängigkeit von der jeweiligen Pflanze. Das betrifft in diesem Beispiel besonders:
+
+- die Blattgröße,
+- die Farbvariation,
+- die räumliche Anordnung.
+
+Dadurch bleibt erkennbar, dass die Blätter zu einer bestimmten Pflanze gehören. Die Pflanze gibt
+also einen gestalterischen Rahmen vor, innerhalb dessen sich die einzelnen Blätter bewegen.
+
+5. Audioanalyse
+
+Die Blätter reagieren weiterhin auf Audioenergie. Dabei wird jedem Blatt ein Frequenzbereich
+zugeordnet. Die Pflanze organisiert diesen Zusammenhang, indem sie für jedes ihrer Blätter die
+passende Energie aus der FFT-Analyse ausliest und an das Blatt weitergibt.
+
+Damit bleibt die Verantwortungsverteilung klar:
+
+- Das Blatt reagiert.
+- Die Pflanze organisiert.
+
+6. Fachlicher Kern
+
+Dieses Beispiel zeigt drei zentrale Gedanken der Objektorientierung in gut sichtbarer Form:
+
+- Instanzen derselben Klasse können unterschiedlich aussehen.
+- Ein Objekt kann andere Objekte enthalten.
+- Komplexere Szenen entstehen aus zusammenarbeitenden Objekten.
+
+Damit wird die Modellierung nicht nur technisch, sondern auch konzeptionell interessanter. Die
+Visualisierung besteht nicht mehr aus lose nebeneinanderstehenden Formen, sondern aus einer kleinen,
+strukturierten Objektwelt.

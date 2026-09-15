@@ -1,0 +1,70 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f5f3;
+  color: #1a1a1a;
+}
+
+.seite {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.kopfbereich {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+h1 {
+  margin: 0 0 10px 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+p {
+  max-width: 980px;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+
+.steuerung {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.steuerung-block {
+  background: #ffffff;
+  border: 1px solid #d6d9d4;
+  border-radius: 12px;
+  padding: 14px 18px;
+  min-width: 360px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.steuerung-block p {
+  margin: 6px 0;
+  text-align: left;
+}
+
+button,
+select {
+  font-size: 16px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #bfc5bc;
+  background: #ffffff;
+}
+
+button {
+  cursor: pointer;
+}
+
+canvas {
+  display: block;
+  margin: 0 auto;
+  border: 2px solid #202020;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
